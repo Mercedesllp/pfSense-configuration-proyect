@@ -50,8 +50,8 @@ Para este diagrama fijé las ips de las vms LAN, ADMIN, SERV_A y SERV_B, ya que 
     [*WAN*], na, block, block, limited, limited,
     [*LAN*], permit, na, block, block_by_defect, block_by_defect,
     [*Admin.*], limited, block_by_defect, na, permit, permit,
-    [*Servidores A*], permit, block, block, na, block_by_defect,
-    [*Servidores B*], permit, block, block, block_by_defect, na,
+    [*Servidores A*], permit, block, block, na, permit,
+    [*Servidores B*], permit, block, block, permit, na,
   )
 ]
 Bloqueado\*: Implica que esta bloqueado por defecto ya que no se especificó queda con la configuración inicial.
@@ -61,5 +61,32 @@ Los limitados de WAN a servidores A y B  implican que solo se puede acceder medi
 El limitado de Admin a WAN es porque solo permito ciertos servicios (http, https, DNS, icmp) que son los fundamentales para tareas de actualización o diagnóstico.
 
 == 4.
+A continuación voy a aclarar cada regla configurada en el firewall.
 
+- WAN:
+  - _*No poder acceder a la red de admin desde una red externa:*_ Es bastante autodeclarativo el nombre, pero impido que la interfaz WAN inicie una conexión con ADMINISTRACION, siendo WAN la única forma de acceder desde la red a admin.
+  - _*No poder acceder a la LAN desde internet:*_ Similar a lo anterior, impide la conexión de redes exxternas a la interfaz LAN/USUARIOS.
+  - _*NAT publicar servicio HTTP mediante WAN:*_ Regla que se genera por la configuración del port foward para permitir el tráfico entrante al puerto 8000 del servidor A.
+  - _*Permitir HTTP hacia servidores B:*_ Permite solo el tráfico al puerto 8000 del servidor B. Se permite el acceso directo a la IP enrutable del servidor sin NAT, ya que es IP pública. 
+
+- LAN: 
+  - _*Block hacia admin:*_ Bloquear el acceso a la intefaz de ADMINISTRACION.
+  - _*Salida con WAN:*_ Permite que los USUARIOS puedan acceder a la red externa/internet.
+
+- ADMINISTRACION:
+  - _*Permitir que admin acceda a la GUI de pfSense:*_ Permite el acceso al propio firewall.
+  - _*Permitir acceso a servidores (A y B):*_ Habilita el acceso a los servidores desde la ADMINISTRACION.
+  - _*Acceso a la red externa/internet (dns, http, https, icmp):*_ Solo permito ciertas conexiones a servicios externos para actualización de software o diagnóstico, asi no esta tan expuesto. Permito dns para poder resolver direcciones, http/https para acceder a la web e icmp para cosas como poder hacer `ping`.
+
+- SERVIDORESA:
+  - _*No acceder a (admin y LAN):*_ Bloquea el poder iniciar conexiones con ADMINISTRACION y LAN.
+  - _*Iniciar conexiones hacia la red externa/internet:*_ Permite el paso a cualquier destino.
+
+- SERVIDORESB:
+  - _*No acceder a admin / Bloquear acceso a LAN:*_ Bloquea el poder iniciar conexiones con ADMINISTRACION y LAN.
+  - _*Permitir acceso a red externa/internet:*_ Permite al servidor salir al exterior.
+
+= Tengo que cambiar el acceso a servA y servB bloqueandolos entre si y que solo puedan acceder mediante la red.
+
+== 5.
 
