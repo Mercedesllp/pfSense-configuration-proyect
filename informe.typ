@@ -50,8 +50,8 @@ Para este diagrama fijé las ips de las vms LAN, ADMIN, SERV_A y SERV_B, ya que 
     [*WAN*], na, block, block, limited, limited,
     [*LAN*], permit, na, block, block_by_defect, block_by_defect,
     [*Admin.*], limited, block_by_defect, na, permit, permit,
-    [*Servidores A*], permit, block, block, na, permit,
-    [*Servidores B*], permit, block, block, permit, na,
+    [*Servidores A*], permit, block, block, na, block_by_defect,
+    [*Servidores B*], permit, block, block, block_by_defect, na,
   )
 ]
 Bloqueado\*: Implica que esta bloqueado por defecto ya que no se especificó queda con la configuración inicial.
@@ -78,14 +78,19 @@ A continuación voy a aclarar cada regla configurada en el firewall.
   - _*Permitir acceso a servidores (A y B):*_ Habilita el acceso a los servidores desde la ADMINISTRACION.
   - _*Acceso a la red externa/internet (dns, http, https, icmp):*_ Solo permito ciertas conexiones a servicios externos para actualización de software o diagnóstico, asi no esta tan expuesto. Permito dns para poder resolver direcciones, http/https para acceder a la web e icmp para cosas como poder hacer `ping`.
 
-- SERVIDORESA:
-  - _*No acceder a (admin y LAN):*_ Bloquea el poder iniciar conexiones con ADMINISTRACION y LAN.
+- SERVIDORESA: 0
+  - _*No acceder a (admin, servidores A y LAN):*_ Bloquea el poder iniciar conexiones con ADMINISTRACION y LAN. // Agregar servB
   - _*Iniciar conexiones hacia la red externa/internet:*_ Permite el paso a cualquier destino.
 
 - SERVIDORESB:
-  - _*No acceder a admin / Bloquear acceso a LAN:*_ Bloquea el poder iniciar conexiones con ADMINISTRACION y LAN.
+  - _*No acceder a (admin, servidores B y LAN):*_ Bloquea el poder iniciar conexiones con ADMINISTRACION y LAN. // Agregar servB y cambiar nombres en el pfSense
   - _*Permitir acceso a red externa/internet:*_ Permite al servidor salir al exterior.
 
-= Tengo que cambiar el acceso a servA y servB bloqueandolos entre si y que solo puedan acceder mediante la red.
 == 5.
 
+*Port fowarding (donde si se usa NAT):*\
+En este caso, lo que sucede es que cuando se solicitan desde una red externa los servicios que ofrece el servidor A, la solicitud llega primero a la IP de la WAN por el puerto 8000. La regla de pfSense "NAT publicar servicio HTTP mediante WAN" traduce/redirige esos paquetes a la IP privada local de Servidores A (192.168.20.10).
+
+*Routing (sin NAT):* \
+En el caso de SERVIDORESB, se requiere acceso directo. Por ello, se configuró una regla manual de Outbound NAT explícita para desactivar el NAT para esta red. Para el tráfico entrante solo necesito la regla "permitir HTTP hacia servidores B" y pfSense se encarga de enrutar el tráfico. \
+Para que esto funcione, la infraestructura externa debe tener configurada una ruta estática hacia el prefijo 44.0.51.0/24 apuntando a la IP WAN de mi pfSense.
