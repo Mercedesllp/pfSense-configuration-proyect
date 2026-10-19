@@ -19,7 +19,7 @@ Para este diagrama fijé las ips de las vms LAN, ADMIN, SERV_A y SERV_B, ya que 
 == 2.
 #align(center)[
   #table(
-    columns: 2, 
+    columns: 2,
     [*Lugar*], [*Dirección IP*],
     [Interfaz WAN],[10.41.107.172],
     [Interfaz LAN],[192.168.10.1],
@@ -44,9 +44,9 @@ Para este diagrama fijé las ips de las vms LAN, ADMIN, SERV_A y SERV_B, ya que 
     align: center + horizon,
     fill: (x, y) => if y == 0 or x == 0 { luma(240) } else { none },
     stroke: 0.5pt + luma(150),
-    
+
     [Desde \\ Hacia], [*WAN*], [*LAN*], [*Admin.*], [*Servidores A*], [*Servidores B*],
-    
+
     [*WAN*], na, block, block, limited, limited,
     [*LAN*], permit, na, block, block_by_defect, block_by_defect,
     [*Admin.*], limited, block_by_defect, na, permit, permit,
@@ -67,9 +67,9 @@ A continuación voy a aclarar cada regla configurada en el firewall.
   - _*No poder acceder a la red de admin desde una red externa:*_ Es bastante autodeclarativo el nombre, pero impido que la interfaz WAN inicie una conexión con ADMINISTRACION, siendo WAN la única forma de acceder desde la red a admin.
   - _*No poder acceder a la LAN desde internet:*_ Similar a lo anterior, impide la conexión de redes exxternas a la interfaz LAN/USUARIOS.
   - _*NAT publicar servicio HTTP mediante WAN:*_ Regla que se genera por la configuración del port foward para permitir el tráfico entrante al puerto 8000 del servidor A.
-  - _*Permitir HTTP hacia servidores B:*_ Permite solo el tráfico al puerto 8000 del servidor B. Se permite el acceso directo a la IP enrutable del servidor sin NAT, ya que es IP pública. 
+  - _*Permitir HTTP hacia servidores B:*_ Permite solo el tráfico al puerto 8000 del servidor B. Se permite el acceso directo a la IP enrutable del servidor sin NAT, ya que es IP pública.
 
-- LAN: 
+- LAN:
   - _*Block hacia admin:*_ Bloquear el acceso a la intefaz de ADMINISTRACION.
   - _*Salida con WAN:*_ Permite que los USUARIOS puedan acceder a la red externa/internet.
 
@@ -95,7 +95,7 @@ En este caso, lo que sucede es que cuando se solicitan desde una red externa los
 En el caso de SERVIDORESB, se requiere acceso directo. Por ello, se configuró una regla manual de Outbound NAT explícita para desactivar el NAT para esta red. Para el tráfico entrante solo necesito la regla "permitir HTTP hacia servidores B" y pfSense se encarga de enrutar el tráfico. \
 Para que esto funcione, la infraestructura externa debe tener configurada una ruta estática hacia el prefijo 44.0.51.0/24 apuntando a la IP WAN de mi pfSense.
 
-== 6. 
+== 6.
 A continuación se encuentran algunos tests realizados para el chequeo del correcto funcionamiento.
 
 Admin:
@@ -115,3 +115,15 @@ prtfw/SERV_A:
 ruteada/SERV_B:
 - Acceso a internet y no acceso a USUARIOS y ADMINISTRACION.
 #image("assets/image-3.png", width: 90%)
+
+== 8.
+
+*Procedimiento de recuperación de la infraestructura ante la pérdida de la VM del firewall*
+
+Primero tener el archivo de configuración XML del pfSense, además requiero tener los bridges y toda la infraestructura de red del host.
+
+Ahora con todo verificado, creo una nueva VM con pfSense para instalar, donde le asocio las 5 intefaces de red virtuales en el orden de mapeo de los bridges del host.
+
+Abrir la GUI del pfSense y restaurar la configuración del XML. Al reiniciar el sistema pfSense se procesa el archivo XML y se reestructura automáticamente todo lo modificado del pfSense.
+
+Comprobar la correcta aplicación de las reglas corriendo tests de nuevo.
