@@ -87,6 +87,5 @@ A continuación voy a aclarar cada regla configurada en el firewall.
   - _*Permitir acceso a red externa/internet:*_ Permite al servidor salir al exterior.
 
 = Tengo que cambiar el acceso a servA y servB bloqueandolos entre si y que solo puedan acceder mediante la red.
-
 == 5.
 
