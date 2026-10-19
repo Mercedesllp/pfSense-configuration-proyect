@@ -491,6 +491,38 @@
 		</rule>
 		<rule>
 			<id></id>
+			<tracker>1792426502</tracker>
+			<type>block</type>
+			<interface>opt1</interface>
+			<ipprotocol>inet</ipprotocol>
+			<tag></tag>
+			<tagged></tagged>
+			<max></max>
+			<max-src-nodes></max-src-nodes>
+			<max-src-conn></max-src-conn>
+			<max-src-states></max-src-states>
+			<statetimeout></statetimeout>
+			<statepolicy></statepolicy>
+			<statetype><![CDATA[keep state]]></statetype>
+			<os></os>
+			<source>
+				<network>opt1</network>
+			</source>
+			<destination>
+				<network>opt2</network>
+			</destination>
+			<descr><![CDATA[no acceder a SERVIDORESA]]></descr>
+			<updated>
+				<time>1792426502</time>
+				<username><![CDATA[admin@192.168.10.2 (Local Database)]]></username>
+			</updated>
+			<created>
+				<time>1792426502</time>
+				<username><![CDATA[admin@192.168.10.2 (Local Database)]]></username>
+			</created>
+		</rule>
+		<rule>
+			<id></id>
 			<tracker>1791918750</tracker>
 			<type>block</type>
 			<interface>opt1</interface>
@@ -543,15 +575,15 @@
 			<destination>
 				<network>lan</network>
 			</destination>
-			<descr><![CDATA[bloquear acceso a LAN]]></descr>
-			<updated>
-				<time>1791918961</time>
-				<username><![CDATA[admin@192.168.10.2 (Local Database)]]></username>
-			</updated>
+			<descr><![CDATA[no acceder a LAN]]></descr>
 			<created>
 				<time>1791918961</time>
 				<username><![CDATA[admin@192.168.10.2 (Local Database)]]></username>
 			</created>
+			<updated>
+				<time>1792426515</time>
+				<username><![CDATA[admin@192.168.10.2 (Local Database)]]></username>
+			</updated>
 		</rule>
 		<rule>
 			<id></id>
@@ -584,6 +616,38 @@
 				<time>1792175085</time>
 				<username><![CDATA[admin@192.168.10.2 (Local Database)]]></username>
 			</updated>
+		</rule>
+		<rule>
+			<id></id>
+			<tracker>1792426470</tracker>
+			<type>block</type>
+			<interface>opt2</interface>
+			<ipprotocol>inet</ipprotocol>
+			<tag></tag>
+			<tagged></tagged>
+			<max></max>
+			<max-src-nodes></max-src-nodes>
+			<max-src-conn></max-src-conn>
+			<max-src-states></max-src-states>
+			<statetimeout></statetimeout>
+			<statepolicy></statepolicy>
+			<statetype><![CDATA[keep state]]></statetype>
+			<os></os>
+			<source>
+				<network>opt2</network>
+			</source>
+			<destination>
+				<network>opt1</network>
+			</destination>
+			<descr><![CDATA[no acceder a SERVIDORESB]]></descr>
+			<updated>
+				<time>1792426470</time>
+				<username><![CDATA[admin@192.168.10.2 (Local Database)]]></username>
+			</updated>
+			<created>
+				<time>1792426470</time>
+				<username><![CDATA[admin@192.168.10.2 (Local Database)]]></username>
+			</created>
 		</rule>
 		<rule>
 			<id></id>
@@ -1040,7 +1104,7 @@
 	<vlans></vlans>
 	<qinqs></qinqs>
 	<revision>
-		<time>1792180327</time>
+		<time>1792426516</time>
 		<description><![CDATA[admin@192.168.10.2 (Local Database): Firewall: Rules - saved/edited a firewall rule.]]></description>
 		<username><![CDATA[admin@192.168.10.2 (Local Database)]]></username>
 	</revision>
