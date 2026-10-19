@@ -12,7 +12,7 @@
 
 Diagrama de la topología implementada:
 
-#image("diagrama_infra.png")
+#image("assets/diagrama_infra.png")
 
 Para este diagrama fijé las ips de las vms LAN, ADMIN, SERV_A y SERV_B, ya que previamente se asignaban por dhcp.
 
@@ -94,3 +94,24 @@ En este caso, lo que sucede es que cuando se solicitan desde una red externa los
 *Routing (sin NAT):* \
 En el caso de SERVIDORESB, se requiere acceso directo. Por ello, se configuró una regla manual de Outbound NAT explícita para desactivar el NAT para esta red. Para el tráfico entrante solo necesito la regla "permitir HTTP hacia servidores B" y pfSense se encarga de enrutar el tráfico. \
 Para que esto funcione, la infraestructura externa debe tener configurada una ruta estática hacia el prefijo 44.0.51.0/24 apuntando a la IP WAN de mi pfSense.
+
+== 6. 
+A continuación se encuentran algunos tests realizados para el chequeo del correcto funcionamiento.
+
+Admin:
+- Acceso a la GUI del pfSense.
+#image("assets/image.png")
+- Acceso a los servidores A y B.
+#image("assets/image-4.png", width: 70%)
+
+LAN/USUARIOS:
+- Acceso a la red externa/internet y no accceso a ADMINISTRACION.
+#image("assets/image-1.png")
+
+prtfw/SERV_A:
+- Acceso a red externa/internet
+#image("assets/image-2.png")
+
+ruteada/SERV_B:
+- Acceso a internet y no acceso a USUARIOS y ADMINISTRACION.
+#image("assets/image-3.png", width: 90%)
