@@ -255,31 +255,7 @@
 	</syslog>
 	<nat>
 		<outbound>
-			<mode>hybrid</mode>
-			<rule>
-				<source>
-					<network>44.0.51.0/24</network>
-				</source>
-				<sourceport>8000</sourceport>
-				<descr><![CDATA[desactivar nat para dmz ruteada]]></descr>
-				<target></target>
-				<target_subnet></target_subnet>
-				<interface>wan</interface>
-				<poolopts></poolopts>
-				<source_hash_key></source_hash_key>
-				<nonat></nonat>
-				<destination>
-					<any></any>
-				</destination>
-				<updated>
-					<time>1791920122</time>
-					<username><![CDATA[admin@192.168.10.2 (Local Database)]]></username>
-				</updated>
-				<created>
-					<time>1791920122</time>
-					<username><![CDATA[admin@192.168.10.2 (Local Database)]]></username>
-				</created>
-			</rule>
+			<mode>automatic</mode>
 		</outbound>
 		<rule>
 			<source>
@@ -412,7 +388,7 @@
 				<network>wan</network>
 			</source>
 			<destination>
-				<network>wan</network>
+				<network>opt1</network>
 				<port>8000</port>
 			</destination>
 			<descr><![CDATA[permitir HTTP hacia servidores B]]></descr>
@@ -421,7 +397,7 @@
 				<username><![CDATA[admin@192.168.10.2 (Local Database)]]></username>
 			</created>
 			<updated>
-				<time>1792173284</time>
+				<time>1792512988</time>
 				<username><![CDATA[admin@192.168.10.2 (Local Database)]]></username>
 			</updated>
 		</rule>
@@ -1104,7 +1080,7 @@
 	<vlans></vlans>
 	<qinqs></qinqs>
 	<revision>
-		<time>1792426516</time>
+		<time>1792512988</time>
 		<description><![CDATA[admin@192.168.10.2 (Local Database): Firewall: Rules - saved/edited a firewall rule.]]></description>
 		<username><![CDATA[admin@192.168.10.2 (Local Database)]]></username>
 	</revision>
